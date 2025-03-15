@@ -30,22 +30,24 @@ typedef int_least64_t  i64;
 typedef uint_least16_t usize;
 typedef int_least16_t  isize;
 
-typedef volatile u8   *ptr8;
-typedef volatile u16  *ptr16;
+typedef volatile u8 *  ptr8;
+typedef volatile u16 * ptr16;
 typedef volatile void *opaque;
 
 #ifndef F_CPU
 #define F_CPU 16000000UL
 #endif
 
-typedef enum {
+typedef enum
+{
         LOW  = 0,
         HIGH = 1,
         ON   = 0,
         OFF  = 1
 } State;
 
-typedef enum {
+typedef enum
+{
         GPIO_PORTB = (uint16_t)&PORTB,
         GPIO_PORTC = (uint16_t)&PORTC,
         GPIO_PORTD = (uint16_t)&PORTD
@@ -65,18 +67,18 @@ typedef struct {
 #define hal_set_bit8(reg, bit)           ((reg) |= hal_mask8(bit))
 #define hal_clear_bit8(reg, bit)         ((reg) &= ~hal_mask8(bit))
 #define hal_toggle_bit8(reg, bit)        ((reg) ^= hal_mask8(bit))
-#define hal_read_bit8(reg, bit)          (((reg) & hal_mask8(bit)) ? HIGH : LOW)
+#define hal_read_bit8(reg, bit)          (((reg)&hal_mask8(bit)) ? HIGH : LOW)
 #define hal_write_bit8(reg, bit, state)  ((state) == HIGH ? hal_set_bit8(reg, bit) : hal_clear_bit8(reg, bit))
-#define hal_is_bit8_set(reg, bit)        (((reg) & hal_mask8(bit)) != 0)
-#define hal_is_bit8_unset(reg, bit)      (((reg) & hal_mask8(bit)) == 0)
+#define hal_is_bit8_set(reg, bit)        (((reg)&hal_mask8(bit)) != 0)
+#define hal_is_bit8_unset(reg, bit)      (((reg)&hal_mask8(bit)) == 0)
 
 #define hal_set_bit16(reg, bit)          ((reg) |= hal_mask16(bit))
 #define hal_clear_bit16(reg, bit)        ((reg) &= ~hal_mask16(bit))
 #define hal_toggle_bit16(reg, bit)       ((reg) ^= hal_mask16(bit))
-#define hal_read_bit16(reg, bit)         (((reg) & hal_mask16(bit)) ? HIGH : LOW)
+#define hal_read_bit16(reg, bit)         (((reg)&hal_mask16(bit)) ? HIGH : LOW)
 #define hal_write_bit16(reg, bit, state) ((state) == HIGH ? hal_set_bit16(reg, bit) : hal_clear_bit16(reg, bit))
-#define hal_is_bit16_set(reg, bit)       (((reg) & hal_mask16(bit)) != 0)
-#define hal_is_bit16_unset(reg, bit)     (((reg) & hal_mask16(bit)) == 0)
+#define hal_is_bit16_set(reg, bit)       (((reg)&hal_mask16(bit)) != 0)
+#define hal_is_bit16_unset(reg, bit)     (((reg)&hal_mask16(bit)) == 0)
 
 #define hal_or_reg8(reg, mask)           ((reg) |= (mask))
 #define hal_and_reg8(reg, mask)          ((reg) &= (mask))
@@ -119,7 +121,7 @@ inline void hal_mem_clear(void *dst, usize size) {
 }
 
 inline void hal_mem_copy(void *dst, const void *src, usize size) {
-        u8       *d = (u8 *)dst;
+        u8 *      d = (u8 *)dst;
         const u8 *s = (const u8 *)src;
         while (size--) {
                 *d++ = *s++;
@@ -127,7 +129,7 @@ inline void hal_mem_copy(void *dst, const void *src, usize size) {
 }
 
 inline void hal_mem_move(void *dst, const void *src, usize size) {
-        u8       *d = (u8 *)dst;
+        u8 *      d = (u8 *)dst;
         const u8 *s = (const u8 *)src;
 
         if (d < s) {
@@ -166,9 +168,9 @@ typedef struct {
 } Timer8Bit;
 
 typedef struct {
-        volatile uint8_t  *TCCRA;
-        volatile uint8_t  *TCCRB;
-        volatile uint8_t  *TCCRC;
+        volatile uint8_t * TCCRA;
+        volatile uint8_t * TCCRB;
+        volatile uint8_t * TCCRC;
         volatile uint16_t *TCNT;
         volatile uint16_t *ICR;
         volatile uint16_t *OCR_A;
@@ -208,12 +210,33 @@ typedef union {
 
 } Color;
 
-#define RED     (const Color){.r = 255, .g = 0, .b = 0}
-#define GREEN   (const Color){.r = 0, .g = 255, .b = 0}
-#define BLUE    (const Color){.r = 0, .g = 0, .b = 255}
-#define YELLOW  (const Color){.r = 255, .g = 255, .b = 0}
-#define CYAN    (const Color){.r = 0, .g = 255, .b = 255}
-#define MAGENTA (const Color){.r = 255, .g = 0, .b = 255}
-#define WHITE   (const Color){.r = 255, .g = 255, .b = 255}
+#define RED                                                                                                                                                    \
+        (const Color) {                                                                                                                                        \
+                .r = 255, .g = 0, .b = 0                                                                                                                       \
+        }
+#define GREEN                                                                                                                                                  \
+        (const Color) {                                                                                                                                        \
+                .r = 0, .g = 255, .b = 0                                                                                                                       \
+        }
+#define BLUE                                                                                                                                                   \
+        (const Color) {                                                                                                                                        \
+                .r = 0, .g = 0, .b = 255                                                                                                                       \
+        }
+#define YELLOW                                                                                                                                                 \
+        (const Color) {                                                                                                                                        \
+                .r = 255, .g = 255, .b = 0                                                                                                                     \
+        }
+#define CYAN                                                                                                                                                   \
+        (const Color) {                                                                                                                                        \
+                .r = 0, .g = 255, .b = 255                                                                                                                     \
+        }
+#define MAGENTA                                                                                                                                                \
+        (const Color) {                                                                                                                                        \
+                .r = 255, .g = 0, .b = 255                                                                                                                     \
+        }
+#define WHITE                                                                                                                                                  \
+        (const Color) {                                                                                                                                        \
+                .r = 255, .g = 255, .b = 255                                                                                                                   \
+        }
 
 #endif // HAL_H
